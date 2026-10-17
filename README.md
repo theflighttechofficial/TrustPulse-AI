@@ -129,6 +129,8 @@ figures/                       ablation, lead time, decision bands, example patt
 scripts/telum_benchmark.py     Snap ML inference on CPU vs the Telum II accelerator (NNPA via zDNN)
 scripts/telum_sweep.py         the same comparison across batch sizes, threads and model sizes
 scripts/cpacf_state.py         AES-256-GCM encryption of engine state and model (CPACF via OpenSSL)
+scripts/platform_evidence.sh   machine type, CPU facilities, accelerator and crypto checks on the VM
+Containerfile                  s390x container for the live engine and console
 results/                       metrics.json (evaluation), realtime_parity.json (engine), telum_benchmark.json and telum_sweep.json (accelerator), cpacf_state.json (encryption)
 resources.md                   libraries, datasets and tools, with licenses
 ```
@@ -175,6 +177,22 @@ Tunnel port 8050 the same way (`ssh -i <key> -L 8888:localhost:8888 -L 8050:loca
 To try the console without the dataset: `python tests/make_synthetic_bundle.py /tmp/tp_demo` then `python app/server.py --model-dir /tmp/tp_demo/models --artifacts /tmp/tp_demo/engine`. Tests: `python -m pytest -q tests`.
 
 Pip has no s390x wheels for SciPy or scikit-learn, and building them from source needs a Fortran compiler and takes a long time. Ubuntu's packages avoid that.
+
+### Run the engine as a container
+
+The live engine and console also run as an s390x container built from Ubuntu's native packages. The engine state is mounted read-only, so the image holds no account data and runs as a non-root user.
+
+```bash
+sudo apt install -y podman
+cd ~/trustpulse
+podman build -t trustpulse -f Containerfile .
+podman run --rm -p 127.0.0.1:8050:8050 \
+    -v ~/trustpulse/artifacts/engine:/app/artifacts/engine:ro trustpulse
+```
+
+### Platform evidence
+
+`bash scripts/platform_evidence.sh` prints the machine type, the `nnpa` (Telum II) and `msa` (CPACF) CPU facilities, the zDNN and Snap ML versions, the Python stack, an AES-256-GCM speed test and the test results, and saves them to `results/platform_evidence.txt`.
 
 ## Limitations
 
