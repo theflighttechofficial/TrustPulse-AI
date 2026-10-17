@@ -25,6 +25,11 @@ Everything in this repository was developed and executed on an IBM LinuxONE Comm
 | Scoring, one transaction | 2.78 ms (sklearn per-call overhead) |
 | Scoring, batched | 5.7 µs per transaction |
 | Explaining 21,944 alerts | 2.3 s (about 105 µs per alert) |
+| Live engine, one payment end to end (p50 / p99) | 0.256 ms / 0.395 ms |
+| Live engine throughput, one payment at a time | 3,456 payments/s |
+| Export of model and warm state (515k accounts, 979k pairs) | 2.5 s |
+
+The live-engine rows come from `results/realtime_parity.json`: 20,000 test payments streamed one at a time, including reasons for every alert. The slowest single payment took 370 ms (a one-off pause; p99 is 0.4 ms). For comparison, scikit-learn's own `predict_proba` on one payment took 2.78 ms on the same VM, so the exported scorer is about 11× faster per payment.
 
 No claims are made about the on-chip AI accelerator; it was not verified or used on this VM.
 
@@ -39,7 +44,7 @@ No claims are made about the on-chip AI accelerator; it was not verified or used
 
 The notebook proves the method in batch. `trustpulse/engine.py` runs it the way a bank would: one payment in, one decision out, before the money moves.
 
-- **Streaming state.** A running profile per account (payments in and out, amounts, distinct counterparties, first and last activity) and a count per sender-receiver pair. Each payment reads the profiles, gets a decision, then updates them. Every feature is identical to the notebook's batch definition; `build.parity_check` streams the test days through the engine and compares feature by feature against the notebook frame and against scikit-learn's own scores (`results/realtime_parity.json`).
+- **Streaming state.** A running profile per account (payments in and out, amounts, distinct counterparties, first and last activity) and a count per sender-receiver pair. Each payment reads the profiles, gets a decision, then updates them. Every feature is identical to the notebook's batch definition; `build.parity_check` streams the test days through the engine and compares feature by feature against the notebook frame and against scikit-learn's own scores. On LinuxONE, over 20,000 payments: largest relative feature difference 4.4e-14, decisions identical to the batch pipeline in 100% of cases (`results/realtime_parity.json`).
 - **Portable model.** The 300 trained trees are exported to flat arrays (`models/model_trees.json`). The engine walks all trees together with a few NumPy operations, so serving needs Python and NumPy only: no pandas, no scikit-learn, no compiler. That matters on s390x, where pip has no wheels for most of the data-science stack.
 - **Decisions with reasons.** Thresholds come from the validation days (`models/engine_config.json`). For VERIFY and REVIEW, the engine re-scores the payment with each signal group reset to its typical value and reports the groups that moved the score most, in plain language.
 - **Live console** (`app/server.py`, Flask). Replays the held-out test days through the engine in arrival order, at a chosen speed, and shows decisions, latency, throughput, alerts with reasons, and how early each laundering pattern was flagged (ground truth is shown as an overlay and never reaches the engine). The same process exposes `POST /api/score` for single payments.
