@@ -4,6 +4,8 @@ Real-time, network-aware risk scoring for instant payments, built and run on IBM
 
 IBM Z Datathon 2026, Theme 1: Real-Time AI for Critical Decisions. Team: Project HailMary.
 
+**Demo video (3 min):** https://youtu.be/pyycgKfJAe8
+
 ## The problem
 
 Instant-payment scams and money mules are hard to stop one transaction at a time. Each transfer on its own can look ordinary. The giveaway is how accounts behave together: money arrives in an account and leaves again within hours, one account collects from many new senders, a chain of first-time counterparties forms. By the time the last transfer lands, the money is gone.
