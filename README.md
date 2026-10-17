@@ -71,6 +71,8 @@ Split for IBM AML: train 1–6 Sep, validation 7–8 Sep, test 9–10 Sep 2022. 
 | Transaction + network | **0.525** | **0.958** | **0.719** | **0.129** |
 | Network, without channel and currency | 0.469 | – | 0.714 | 0.056 |
 
+For comparison with published work, the best F1 on the laundering class over the test days is **0.54** (precision 0.69, recall 0.44). That is an upper bound, because the threshold is chosen on test. Egressy et al. (AAAI 2024) report 0.57–0.68 for offline graph neural networks and about 0.63 for gradient boosting with graph features on HI-Small, using a 60/20/20 temporal split. TrustPulse is in that range with simpler one-hop features that can be updated payment by payment.
+
 The last row checks for a dataset artifact: about 87% of laundering in HI-Small uses ACH. With channel and currency removed, recall holds and PR-AUC stays near 0.47. The network signal is real; channel mainly adds precision.
 
 **Decision bands:**
@@ -159,4 +161,5 @@ Pip has no s390x wheels for SciPy or scikit-learn, and building them from source
 ## References
 
 - E. Altman et al., "Realistic Synthetic Financial Transactions for Anti-Money Laundering Models", NeurIPS 2023 Datasets and Benchmarks.
+- B. Egressy et al., "Provably Powerful Graph Neural Networks for Directed Multigraphs", AAAI 2024 (arXiv:2306.11586).
 - E. A. Lopez-Rojas, A. Elmir, S. Axelsson, "PaySim: A financial mobile money simulator for fraud detection", EMSS 2016.
