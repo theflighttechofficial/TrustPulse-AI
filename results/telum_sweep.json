@@ -1,0 +1,804 @@
+{
+  "machine": "s390x",
+  "test_payments": 862792,
+  "sweep": [
+    {
+      "format": "compress_trees",
+      "n_jobs": 1,
+      "batch": 1,
+      "us_per_payment": 12.59,
+      "payments_per_s": 79431
+    },
+    {
+      "format": "compress_trees",
+      "n_jobs": 1,
+      "batch": 8,
+      "us_per_payment": 5.663,
+      "payments_per_s": 176576
+    },
+    {
+      "format": "compress_trees",
+      "n_jobs": 1,
+      "batch": 32,
+      "us_per_payment": 5.146,
+      "payments_per_s": 194324
+    },
+    {
+      "format": "compress_trees",
+      "n_jobs": 1,
+      "batch": 128,
+      "us_per_payment": 5.136,
+      "payments_per_s": 194693
+    },
+    {
+      "format": "compress_trees",
+      "n_jobs": 1,
+      "batch": 512,
+      "us_per_payment": 5.053,
+      "payments_per_s": 197922
+    },
+    {
+      "format": "compress_trees",
+      "n_jobs": 1,
+      "batch": 2048,
+      "us_per_payment": 5.017,
+      "payments_per_s": 199325
+    },
+    {
+      "format": "compress_trees",
+      "n_jobs": 1,
+      "batch": 8192,
+      "us_per_payment": 5.14,
+      "payments_per_s": 194535
+    },
+    {
+      "format": "compress_trees",
+      "n_jobs": 1,
+      "batch": 65536,
+      "us_per_payment": 4.939,
+      "payments_per_s": 202478
+    },
+    {
+      "format": "compress_trees",
+      "n_jobs": 1,
+      "batch": 862792,
+      "us_per_payment": 5.037,
+      "payments_per_s": 198541
+    },
+    {
+      "format": "compress_trees",
+      "n_jobs": 2,
+      "batch": 1,
+      "us_per_payment": 14.292,
+      "payments_per_s": 69971
+    },
+    {
+      "format": "compress_trees",
+      "n_jobs": 2,
+      "batch": 8,
+      "us_per_payment": 5.763,
+      "payments_per_s": 173528
+    },
+    {
+      "format": "compress_trees",
+      "n_jobs": 2,
+      "batch": 32,
+      "us_per_payment": 4.187,
+      "payments_per_s": 238843
+    },
+    {
+      "format": "compress_trees",
+      "n_jobs": 2,
+      "batch": 128,
+      "us_per_payment": 2.67,
+      "payments_per_s": 374565
+    },
+    {
+      "format": "compress_trees",
+      "n_jobs": 2,
+      "batch": 512,
+      "us_per_payment": 2.761,
+      "payments_per_s": 362142
+    },
+    {
+      "format": "compress_trees",
+      "n_jobs": 2,
+      "batch": 2048,
+      "us_per_payment": 2.442,
+      "payments_per_s": 409546
+    },
+    {
+      "format": "compress_trees",
+      "n_jobs": 2,
+      "batch": 8192,
+      "us_per_payment": 2.536,
+      "payments_per_s": 394262
+    },
+    {
+      "format": "compress_trees",
+      "n_jobs": 2,
+      "batch": 65536,
+      "us_per_payment": 2.587,
+      "payments_per_s": 386504
+    },
+    {
+      "format": "compress_trees",
+      "n_jobs": 2,
+      "batch": 862792,
+      "us_per_payment": 2.584,
+      "payments_per_s": 387038
+    },
+    {
+      "format": "compress_trees",
+      "n_jobs": 3,
+      "batch": 1,
+      "us_per_payment": 17.569,
+      "payments_per_s": 56918
+    },
+    {
+      "format": "compress_trees",
+      "n_jobs": 3,
+      "batch": 8,
+      "us_per_payment": 6.617,
+      "payments_per_s": 151121
+    },
+    {
+      "format": "compress_trees",
+      "n_jobs": 3,
+      "batch": 32,
+      "us_per_payment": 4.203,
+      "payments_per_s": 237951
+    },
+    {
+      "format": "compress_trees",
+      "n_jobs": 3,
+      "batch": 128,
+      "us_per_payment": 1.944,
+      "payments_per_s": 514401
+    },
+    {
+      "format": "compress_trees",
+      "n_jobs": 3,
+      "batch": 512,
+      "us_per_payment": 1.766,
+      "payments_per_s": 566129
+    },
+    {
+      "format": "compress_trees",
+      "n_jobs": 3,
+      "batch": 2048,
+      "us_per_payment": 1.799,
+      "payments_per_s": 555801
+    },
+    {
+      "format": "compress_trees",
+      "n_jobs": 3,
+      "batch": 8192,
+      "us_per_payment": 1.859,
+      "payments_per_s": 537962
+    },
+    {
+      "format": "compress_trees",
+      "n_jobs": 3,
+      "batch": 65536,
+      "us_per_payment": 1.754,
+      "payments_per_s": 570006
+    },
+    {
+      "format": "compress_trees",
+      "n_jobs": 3,
+      "batch": 862792,
+      "us_per_payment": 1.79,
+      "payments_per_s": 558554
+    },
+    {
+      "format": "zdnn_tensors",
+      "n_jobs": 1,
+      "batch": 1,
+      "us_per_payment": 30.384,
+      "payments_per_s": 32912
+    },
+    {
+      "format": "zdnn_tensors",
+      "n_jobs": 1,
+      "batch": 8,
+      "us_per_payment": 22.569,
+      "payments_per_s": 44308
+    },
+    {
+      "format": "zdnn_tensors",
+      "n_jobs": 1,
+      "batch": 32,
+      "us_per_payment": 21.363,
+      "payments_per_s": 46809
+    },
+    {
+      "format": "zdnn_tensors",
+      "n_jobs": 1,
+      "batch": 128,
+      "us_per_payment": 21.484,
+      "payments_per_s": 46546
+    },
+    {
+      "format": "zdnn_tensors",
+      "n_jobs": 1,
+      "batch": 512,
+      "us_per_payment": 20.789,
+      "payments_per_s": 48102
+    },
+    {
+      "format": "zdnn_tensors",
+      "n_jobs": 1,
+      "batch": 2048,
+      "us_per_payment": 27.294,
+      "payments_per_s": 36639
+    },
+    {
+      "format": "zdnn_tensors",
+      "n_jobs": 1,
+      "batch": 8192,
+      "us_per_payment": 23.313,
+      "payments_per_s": 42894
+    },
+    {
+      "format": "zdnn_tensors",
+      "n_jobs": 1,
+      "batch": 65536,
+      "us_per_payment": 21.472,
+      "payments_per_s": 46573
+    },
+    {
+      "format": "zdnn_tensors",
+      "n_jobs": 1,
+      "batch": 862792,
+      "us_per_payment": 21.236,
+      "payments_per_s": 47090
+    },
+    {
+      "format": "zdnn_tensors",
+      "n_jobs": 2,
+      "batch": 1,
+      "us_per_payment": 85.813,
+      "payments_per_s": 11653
+    },
+    {
+      "format": "zdnn_tensors",
+      "n_jobs": 2,
+      "batch": 8,
+      "us_per_payment": 110.785,
+      "payments_per_s": 9027
+    },
+    {
+      "format": "zdnn_tensors",
+      "n_jobs": 2,
+      "batch": 32,
+      "us_per_payment": 61.759,
+      "payments_per_s": 16192
+    },
+    {
+      "format": "zdnn_tensors",
+      "n_jobs": 2,
+      "batch": 128,
+      "us_per_payment": 35.054,
+      "payments_per_s": 28527
+    },
+    {
+      "format": "zdnn_tensors",
+      "n_jobs": 2,
+      "batch": 512,
+      "us_per_payment": 16.742,
+      "payments_per_s": 59731
+    },
+    {
+      "format": "zdnn_tensors",
+      "n_jobs": 2,
+      "batch": 2048,
+      "us_per_payment": 48.634,
+      "payments_per_s": 20562
+    },
+    {
+      "format": "zdnn_tensors",
+      "n_jobs": 2,
+      "batch": 8192,
+      "us_per_payment": 29.201,
+      "payments_per_s": 34246
+    },
+    {
+      "format": "zdnn_tensors",
+      "n_jobs": 2,
+      "batch": 65536,
+      "us_per_payment": 17.873,
+      "payments_per_s": 55952
+    },
+    {
+      "format": "zdnn_tensors",
+      "n_jobs": 2,
+      "batch": 862792,
+      "us_per_payment": 14.87,
+      "payments_per_s": 67251
+    },
+    {
+      "format": "zdnn_tensors",
+      "n_jobs": 3,
+      "batch": 1,
+      "us_per_payment": 481.427,
+      "payments_per_s": 2077
+    },
+    {
+      "format": "zdnn_tensors",
+      "n_jobs": 3,
+      "batch": 8,
+      "us_per_payment": 222.396,
+      "payments_per_s": 4496
+    },
+    {
+      "format": "zdnn_tensors",
+      "n_jobs": 3,
+      "batch": 32,
+      "us_per_payment": 69.068,
+      "payments_per_s": 14478
+    },
+    {
+      "format": "zdnn_tensors",
+      "n_jobs": 3,
+      "batch": 128,
+      "us_per_payment": 37.939,
+      "payments_per_s": 26358
+    },
+    {
+      "format": "zdnn_tensors",
+      "n_jobs": 3,
+      "batch": 512,
+      "us_per_payment": 20.553,
+      "payments_per_s": 48655
+    },
+    {
+      "format": "zdnn_tensors",
+      "n_jobs": 3,
+      "batch": 2048,
+      "us_per_payment": 19.35,
+      "payments_per_s": 51679
+    },
+    {
+      "format": "zdnn_tensors",
+      "n_jobs": 3,
+      "batch": 8192,
+      "us_per_payment": 18.071,
+      "payments_per_s": 55337
+    },
+    {
+      "format": "zdnn_tensors",
+      "n_jobs": 3,
+      "batch": 65536,
+      "us_per_payment": 14.985,
+      "payments_per_s": 66733
+    },
+    {
+      "format": "zdnn_tensors",
+      "n_jobs": 3,
+      "batch": 862792,
+      "us_per_payment": 13.518,
+      "payments_per_s": 73975
+    }
+  ],
+  "crossover": [
+    {
+      "n_jobs": 1,
+      "batch": 1,
+      "nnpa_speedup": 0.414,
+      "faster": "CPU"
+    },
+    {
+      "n_jobs": 1,
+      "batch": 8,
+      "nnpa_speedup": 0.251,
+      "faster": "CPU"
+    },
+    {
+      "n_jobs": 1,
+      "batch": 32,
+      "nnpa_speedup": 0.241,
+      "faster": "CPU"
+    },
+    {
+      "n_jobs": 1,
+      "batch": 128,
+      "nnpa_speedup": 0.239,
+      "faster": "CPU"
+    },
+    {
+      "n_jobs": 1,
+      "batch": 512,
+      "nnpa_speedup": 0.243,
+      "faster": "CPU"
+    },
+    {
+      "n_jobs": 1,
+      "batch": 2048,
+      "nnpa_speedup": 0.184,
+      "faster": "CPU"
+    },
+    {
+      "n_jobs": 1,
+      "batch": 8192,
+      "nnpa_speedup": 0.22,
+      "faster": "CPU"
+    },
+    {
+      "n_jobs": 1,
+      "batch": 65536,
+      "nnpa_speedup": 0.23,
+      "faster": "CPU"
+    },
+    {
+      "n_jobs": 1,
+      "batch": 862792,
+      "nnpa_speedup": 0.237,
+      "faster": "CPU"
+    },
+    {
+      "n_jobs": 2,
+      "batch": 1,
+      "nnpa_speedup": 0.167,
+      "faster": "CPU"
+    },
+    {
+      "n_jobs": 2,
+      "batch": 8,
+      "nnpa_speedup": 0.052,
+      "faster": "CPU"
+    },
+    {
+      "n_jobs": 2,
+      "batch": 32,
+      "nnpa_speedup": 0.068,
+      "faster": "CPU"
+    },
+    {
+      "n_jobs": 2,
+      "batch": 128,
+      "nnpa_speedup": 0.076,
+      "faster": "CPU"
+    },
+    {
+      "n_jobs": 2,
+      "batch": 512,
+      "nnpa_speedup": 0.165,
+      "faster": "CPU"
+    },
+    {
+      "n_jobs": 2,
+      "batch": 2048,
+      "nnpa_speedup": 0.05,
+      "faster": "CPU"
+    },
+    {
+      "n_jobs": 2,
+      "batch": 8192,
+      "nnpa_speedup": 0.087,
+      "faster": "CPU"
+    },
+    {
+      "n_jobs": 2,
+      "batch": 65536,
+      "nnpa_speedup": 0.145,
+      "faster": "CPU"
+    },
+    {
+      "n_jobs": 2,
+      "batch": 862792,
+      "nnpa_speedup": 0.174,
+      "faster": "CPU"
+    },
+    {
+      "n_jobs": 3,
+      "batch": 1,
+      "nnpa_speedup": 0.036,
+      "faster": "CPU"
+    },
+    {
+      "n_jobs": 3,
+      "batch": 8,
+      "nnpa_speedup": 0.03,
+      "faster": "CPU"
+    },
+    {
+      "n_jobs": 3,
+      "batch": 32,
+      "nnpa_speedup": 0.061,
+      "faster": "CPU"
+    },
+    {
+      "n_jobs": 3,
+      "batch": 128,
+      "nnpa_speedup": 0.051,
+      "faster": "CPU"
+    },
+    {
+      "n_jobs": 3,
+      "batch": 512,
+      "nnpa_speedup": 0.086,
+      "faster": "CPU"
+    },
+    {
+      "n_jobs": 3,
+      "batch": 2048,
+      "nnpa_speedup": 0.093,
+      "faster": "CPU"
+    },
+    {
+      "n_jobs": 3,
+      "batch": 8192,
+      "nnpa_speedup": 0.103,
+      "faster": "CPU"
+    },
+    {
+      "n_jobs": 3,
+      "batch": 65536,
+      "nnpa_speedup": 0.117,
+      "faster": "CPU"
+    },
+    {
+      "n_jobs": 3,
+      "batch": 862792,
+      "nnpa_speedup": 0.132,
+      "faster": "CPU"
+    }
+  ],
+  "shapes": [
+    {
+      "format": "compress_trees",
+      "n_jobs": 3,
+      "batch": 1,
+      "us_per_payment": 20.161,
+      "payments_per_s": 49601,
+      "trees": 50,
+      "depth": 4,
+      "fit_s": 5.5
+    },
+    {
+      "format": "compress_trees",
+      "n_jobs": 3,
+      "batch": 2048,
+      "us_per_payment": 0.421,
+      "payments_per_s": 2372610,
+      "trees": 50,
+      "depth": 4,
+      "fit_s": 5.5
+    },
+    {
+      "format": "compress_trees",
+      "n_jobs": 3,
+      "batch": 862792,
+      "us_per_payment": 0.206,
+      "payments_per_s": 4859942,
+      "trees": 50,
+      "depth": 4,
+      "fit_s": 5.5
+    },
+    {
+      "format": "zdnn_tensors",
+      "n_jobs": 3,
+      "batch": 1,
+      "us_per_payment": 23.768,
+      "payments_per_s": 42074,
+      "trees": 50,
+      "depth": 4,
+      "fit_s": 5.5
+    },
+    {
+      "format": "zdnn_tensors",
+      "n_jobs": 3,
+      "batch": 2048,
+      "us_per_payment": 3.714,
+      "payments_per_s": 269242,
+      "trees": 50,
+      "depth": 4,
+      "fit_s": 5.5
+    },
+    {
+      "format": "zdnn_tensors",
+      "n_jobs": 3,
+      "batch": 862792,
+      "us_per_payment": 1.404,
+      "payments_per_s": 712462,
+      "trees": 50,
+      "depth": 4,
+      "fit_s": 5.5
+    },
+    {
+      "format": "compress_trees",
+      "n_jobs": 3,
+      "batch": 1,
+      "us_per_payment": 17.756,
+      "payments_per_s": 56320,
+      "trees": 100,
+      "depth": 6,
+      "fit_s": 13.4
+    },
+    {
+      "format": "compress_trees",
+      "n_jobs": 3,
+      "batch": 2048,
+      "us_per_payment": 0.401,
+      "payments_per_s": 2493231,
+      "trees": 100,
+      "depth": 6,
+      "fit_s": 13.4
+    },
+    {
+      "format": "compress_trees",
+      "n_jobs": 3,
+      "batch": 862792,
+      "us_per_payment": 0.511,
+      "payments_per_s": 1955443,
+      "trees": 100,
+      "depth": 6,
+      "fit_s": 13.4
+    },
+    {
+      "format": "zdnn_tensors",
+      "n_jobs": 3,
+      "batch": 1,
+      "us_per_payment": 64.701,
+      "payments_per_s": 15456,
+      "trees": 100,
+      "depth": 6,
+      "fit_s": 13.4
+    },
+    {
+      "format": "zdnn_tensors",
+      "n_jobs": 3,
+      "batch": 2048,
+      "us_per_payment": 5.081,
+      "payments_per_s": 196800,
+      "trees": 100,
+      "depth": 6,
+      "fit_s": 13.4
+    },
+    {
+      "format": "zdnn_tensors",
+      "n_jobs": 3,
+      "batch": 862792,
+      "us_per_payment": 3.521,
+      "payments_per_s": 284018,
+      "trees": 100,
+      "depth": 6,
+      "fit_s": 13.4
+    },
+    {
+      "format": "compress_trees",
+      "n_jobs": 3,
+      "batch": 1,
+      "us_per_payment": 15.103,
+      "payments_per_s": 66214,
+      "trees": 300,
+      "depth": 8,
+      "fit_s": 54.3
+    },
+    {
+      "format": "compress_trees",
+      "n_jobs": 3,
+      "batch": 2048,
+      "us_per_payment": 1.668,
+      "payments_per_s": 599492,
+      "trees": 300,
+      "depth": 8,
+      "fit_s": 54.3
+    },
+    {
+      "format": "compress_trees",
+      "n_jobs": 3,
+      "batch": 862792,
+      "us_per_payment": 1.93,
+      "payments_per_s": 518143,
+      "trees": 300,
+      "depth": 8,
+      "fit_s": 54.3
+    },
+    {
+      "format": "zdnn_tensors",
+      "n_jobs": 3,
+      "batch": 1,
+      "us_per_payment": 347.167,
+      "payments_per_s": 2880,
+      "trees": 300,
+      "depth": 8,
+      "fit_s": 54.3
+    },
+    {
+      "format": "zdnn_tensors",
+      "n_jobs": 3,
+      "batch": 2048,
+      "us_per_payment": 8.709,
+      "payments_per_s": 114828,
+      "trees": 300,
+      "depth": 8,
+      "fit_s": 54.3
+    },
+    {
+      "format": "zdnn_tensors",
+      "n_jobs": 3,
+      "batch": 862792,
+      "us_per_payment": 11.666,
+      "payments_per_s": 85719,
+      "trees": 300,
+      "depth": 8,
+      "fit_s": 54.3
+    }
+  ],
+  "shapes_crossover": [
+    {
+      "trees": 50,
+      "depth": 4,
+      "n_jobs": 3,
+      "batch": 1,
+      "nnpa_speedup": 0.848,
+      "faster": "CPU"
+    },
+    {
+      "trees": 50,
+      "depth": 4,
+      "n_jobs": 3,
+      "batch": 2048,
+      "nnpa_speedup": 0.113,
+      "faster": "CPU"
+    },
+    {
+      "trees": 50,
+      "depth": 4,
+      "n_jobs": 3,
+      "batch": 862792,
+      "nnpa_speedup": 0.147,
+      "faster": "CPU"
+    },
+    {
+      "trees": 100,
+      "depth": 6,
+      "n_jobs": 3,
+      "batch": 1,
+      "nnpa_speedup": 0.274,
+      "faster": "CPU"
+    },
+    {
+      "trees": 100,
+      "depth": 6,
+      "n_jobs": 3,
+      "batch": 2048,
+      "nnpa_speedup": 0.079,
+      "faster": "CPU"
+    },
+    {
+      "trees": 100,
+      "depth": 6,
+      "n_jobs": 3,
+      "batch": 862792,
+      "nnpa_speedup": 0.145,
+      "faster": "CPU"
+    },
+    {
+      "trees": 300,
+      "depth": 8,
+      "n_jobs": 3,
+      "batch": 1,
+      "nnpa_speedup": 0.044,
+      "faster": "CPU"
+    },
+    {
+      "trees": 300,
+      "depth": 8,
+      "n_jobs": 3,
+      "batch": 2048,
+      "nnpa_speedup": 0.192,
+      "faster": "CPU"
+    },
+    {
+      "trees": 300,
+      "depth": 8,
+      "n_jobs": 3,
+      "batch": 862792,
+      "nnpa_speedup": 0.165,
+      "faster": "CPU"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "machine": "s390x",
+  "openssl": "OpenSSL 3.0.13 30 Jan 2024",
+  "cpu_features": "features\t: esan3 zarch stfle msa ldisp eimm dfp edat etf3eh highgprs te vx vxd vxe gs vxe2 vxp sort dflt vxp2 nnpa sie",
+  "msa_in_cpu_flags": true,
+  "files": [
+    {
+      "file": "artifacts/engine/engine_state.npz",
+      "mb": 14.83,
+      "encrypt_ms": 14.77,
+      "decrypt_ms": 11.52,
+      "encrypt_gb_per_s": 1.0,
+      "decrypt_gb_per_s": 1.29,
+      "sha256_plain": "1bba9d2ed7367f7b",
+      "round_trip_ok": true
+    },
+    {
+      "file": "models/model_trees.json",
+      "mb": 1.62,
+      "encrypt_ms": 0.25,
+      "decrypt_ms": 2.62,
+      "encrypt_gb_per_s": 6.58,
+      "decrypt_gb_per_s": 0.62,
+      "sha256_plain": "178d7fe269e24747",
+      "round_trip_ok": true
+    }
+  ],
+  "openssl_speed_aes_256_gcm": "type             16 bytes     64 bytes    256 bytes   1024 bytes   8192 bytes  16384 bytes\nAES-256-GCM     229936.44k   874766.00k  2950118.93k  8416010.67k 14835007.31k 14905194.25k"
+}
