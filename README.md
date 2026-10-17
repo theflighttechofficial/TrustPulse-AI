@@ -50,6 +50,19 @@ The accelerator path is real: with the zDNN library hidden (`SNAPML_ZDNN_LIB=/no
 
 The engine's account-state snapshot and exported model are encrypted at rest with AES-256-GCM (`scripts/cpacf_state.py`). On IBM Z, OpenSSL runs AES-GCM on CPACF, the crypto unit in every core (the `msa` CPU flag). On the VM, the 14.8 MB state snapshot encrypts in 15 ms (1.0 GB/s) and decrypts to identical bytes, and `openssl speed -evp aes-256-gcm` reaches 14.9 GB/s on one core at 16 KB blocks (`results/cpacf_state.json`). Encrypting the state the engine restarts from costs well under a second.
 
+### IBM prerequisite labs
+
+The IBM-provided AI labs were run to completion on the same LinuxONE VM before the build. These are IBM's notebooks, so they are not part of this repository; the screenshots are the record.
+
+| Lab | Covers | Screenshot |
+|---|---|---|
+| Fraud_LSTM_Keras_TF | LSTM fraud scoring, TensorFlow on the NNPA | [docs/labs/lab_fraud_lstm_nnpa.png](docs/labs/lab_fraud_lstm_nnpa.png) |
+| Digit_Class_TensorFlow | MatMul and ReLU dispatched to the NNPA via ibm-zdnn-plugin | [docs/labs/lab_digit_tensorflow_nnpa.png](docs/labs/lab_digit_tensorflow_nnpa.png) |
+| Loan_Approval_Demo | Predictive AI + Generative AI: risk model plus natural-language explanation | [docs/labs/lab_loan_predictive_generative.png](docs/labs/lab_loan_predictive_generative.png) |
+| Churn_Scikit_PyTorch | Hybrid multi-model: scikit-learn and PyTorch | [docs/labs/lab_churn_scikit_pytorch.png](docs/labs/lab_churn_scikit_pytorch.png) |
+
+The labs show the NNPA accelerating dense and LSTM layers. TrustPulse's model is a tree ensemble, and the sweep above shows the CPU path is faster for it on this VM, so the choice of path is measured per model rather than assumed.
+
 ## Approach
 
 1. **Leakage-safe streaming features.** Every transaction becomes an outgoing event for the sender and an incoming event for the receiver. Running totals exclude the current event, so each row only sees strictly earlier activity: counts, amounts, distinct counterparties, pass-through ratio (money out vs money in), account age, time since last activity, and whether the pair has transacted before.
@@ -131,6 +144,7 @@ scripts/telum_sweep.py         the same comparison across batch sizes, threads a
 scripts/cpacf_state.py         AES-256-GCM encryption of engine state and model (CPACF via OpenSSL)
 scripts/platform_evidence.sh   machine type, CPU facilities, accelerator and crypto checks on the VM
 Containerfile                  s390x container for the live engine and console
+docs/labs/                     screenshots of the IBM prerequisite labs run on the VM
 results/                       metrics.json (evaluation), realtime_parity.json (engine), telum_benchmark.json and telum_sweep.json (accelerator), cpacf_state.json (encryption)
 resources.md                   libraries, datasets and tools, with licenses
 ```
