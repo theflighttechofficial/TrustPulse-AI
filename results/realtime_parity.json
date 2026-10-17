@@ -1,0 +1,20 @@
+{
+  "machine": "s390x",
+  "payments": 20000,
+  "feature_max_rel_diff": 4.3712369160501634e-14,
+  "worst_features": {
+    "src_passthrough": 0.0,
+    "dst_passthrough": 0.0,
+    "src_out_amt": 0.0
+  },
+  "score_max_abs_diff_vs_sklearn": 0.0012715920297217036,
+  "decision_agreement": 1.0,
+  "latency_ms": {
+    "features_p50": 0.008,
+    "score_and_explain_p50": 0.2445,
+    "end_to_end_p50": 0.2556,
+    "end_to_end_p99": 0.3948,
+    "end_to_end_max": 370.8102
+  },
+  "throughput_payments_per_s": 3455.9
+}
