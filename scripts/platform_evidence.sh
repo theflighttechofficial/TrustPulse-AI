@@ -24,7 +24,7 @@ mkdir -p results
   echo
   echo "== Telum II accelerator software"
   dpkg-query -W -f='${Package} ${Version}\n' libzdnn0 2>/dev/null || echo "libzdnn0: not installed"
-  python3 -c "import snapml; print('snapml', snapml.__version__)" 2>/dev/null || echo "snapml: not importable here"
+  python3 -c "from importlib.metadata import version; import snapml; print('snapml', version('snapml'))" 2>/dev/null || echo "snapml: not installed in this Python"
   echo
   echo "== Python stack"
   python3 -c "import sys, numpy, pandas, sklearn; print('python', sys.version.split()[0]); print('numpy', numpy.__version__); print('pandas', pandas.__version__); print('scikit-learn', sklearn.__version__)" 2>/dev/null
@@ -32,6 +32,10 @@ mkdir -p results
   echo "== OpenSSL AES-256-GCM (CPACF), 3 s"
   openssl version
   openssl speed -elapsed -seconds 3 -evp aes-256-gcm 2>/dev/null | tail -2
+  echo
+  echo "== Container runtime"
+  podman --version 2>/dev/null || echo "podman: not installed"
+  podman image ls --format '{{.Repository}}:{{.Tag}} {{.Size}}' 2>/dev/null | grep trustpulse || true
   echo
   echo "== Engine tests"
   python3 -m pytest -q tests 2>&1 | tail -1
