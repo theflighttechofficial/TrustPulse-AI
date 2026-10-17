@@ -35,6 +35,20 @@ No claims are made about the on-chip AI accelerator; it was not verified or used
 3. **Decision layer.** Validation-set quantiles set REVIEW (top 0.5%) and VERIFY (top 2%) thresholds.
 4. **Faithful reasons.** For each alert, each feature group is reset to its typical value, and the drop in score is measured. The top three groups become the reason text, so the explanation comes from the model itself, not from separate rules.
 
+## Real-time engine and live console
+
+The notebook proves the method in batch. `trustpulse/engine.py` runs it the way a bank would: one payment in, one decision out, before the money moves.
+
+- **Streaming state.** A running profile per account (payments in and out, amounts, distinct counterparties, first and last activity) and a count per sender-receiver pair. Each payment reads the profiles, gets a decision, then updates them. Every feature is identical to the notebook's batch definition; `build.parity_check` streams the test days through the engine and compares feature by feature against the notebook frame and against scikit-learn's own scores (`results/realtime_parity.json`).
+- **Portable model.** The 300 trained trees are exported to flat arrays (`models/model_trees.json`). The engine walks all trees together with a few NumPy operations, so serving needs Python and NumPy only: no pandas, no scikit-learn, no compiler. That matters on s390x, where pip has no wheels for most of the data-science stack.
+- **Decisions with reasons.** Thresholds come from the validation days (`models/engine_config.json`). For VERIFY and REVIEW, the engine re-scores the payment with each signal group reset to its typical value and reports the groups that moved the score most, in plain language.
+- **Live console** (`app/server.py`, Flask). Replays the held-out test days through the engine in arrival order, at a chosen speed, and shows decisions, latency, throughput, alerts with reasons, and how early each laundering pattern was flagged (ground truth is shown as an overlay and never reaches the engine). The same process exposes `POST /api/score` for single payments.
+
+```bash
+curl -s localhost:8050/api/score -H 'Content-Type: application/json' \
+     -d '{"src": 1057, "dst": 653, "amount": 942, "currency": "US Dollar", "format": "ACH"}'
+```
+
 ## Data
 
 - **IBM Transactions for Anti-Money Laundering, HI-Small** (main evaluation): 5,078,345 transactions, 515,088 accounts, with laundering-pattern labels (fan-in, fan-out, cycle, scatter-gather, and others). Rows after 2022-09-10 are dropped: they are almost entirely pattern tails (over 60% laundering), not real traffic.
@@ -77,9 +91,14 @@ Risk propagation was tested: a flagged transaction leaves decaying risk on both 
 ## Repository layout
 
 ```
-notebooks/main_project.ipynb   end-to-end notebook (PaySim baseline, IBM AML engine, evaluation)
+notebooks/main_project.ipynb   end-to-end notebook (PaySim baseline, IBM AML engine, evaluation, export)
+trustpulse/engine.py           real-time engine: streaming state, tree scorer, decisions, reasons (NumPy only)
+trustpulse/build.py            notebook helpers: export to the engine, parity and latency check
+app/server.py, app/static/     live console and REST scoring endpoint (Flask)
+models/                        exported trees and engine configuration
+tests/                         streaming-vs-batch parity tests; synthetic bundle for a data-free demo
 figures/                       ablation, lead time, decision bands, example pattern
-results/metrics.json           all headline numbers from the final run
+results/                       metrics.json (evaluation), realtime_parity.json (engine on LinuxONE)
 resources.md                   libraries, datasets and tools, with licenses
 ```
 
@@ -112,6 +131,17 @@ ssh -i <key> -L 8888:localhost:8888 linux1@<vm-ip>
 ```
 
 Open `notebooks/main_project.ipynb` and run all cells. On an 8 GB VM, add 4 GB of swap first; the feature build peaks at about 3 GB.
+
+Then start the live console (run `Part 3` of the notebook first; it writes `models/` and `artifacts/engine/`):
+
+```bash
+pip install flask            # or: sudo apt install python3-flask
+cd ~/trustpulse && python app/server.py
+```
+
+Tunnel port 8050 the same way (`ssh -i <key> -L 8888:localhost:8888 -L 8050:localhost:8050 linux1@<vm-ip>`) and open `http://localhost:8050`.
+
+To try the console without the dataset: `python tests/make_synthetic_bundle.py /tmp/tp_demo` then `python app/server.py --model-dir /tmp/tp_demo/models --artifacts /tmp/tp_demo/engine`. Tests: `python -m pytest -q tests`.
 
 Pip has no s390x wheels for SciPy or scikit-learn, and building them from source needs a Fortran compiler and takes a long time. Ubuntu's packages avoid that.
 

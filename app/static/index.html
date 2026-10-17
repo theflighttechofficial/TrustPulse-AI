@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TrustPulse Live</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e1116; --panel: #161b22; --panel-2: #1c222b; --line: #2a313c;
+    --text: #e6e9ee; --muted: #8b95a3; --faint: #5c6673;
+    --blue: #4589ff; --green: #42be65; --yellow: #f1c21b; --red: #fa4d56;
+    --green-bg: rgba(66,190,101,.14); --yellow-bg: rgba(241,194,27,.14); --red-bg: rgba(250,77,86,.16);
+    --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+    --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 14px/1.4 var(--sans); }
+  header { display: flex; align-items: center; gap: 16px; padding: 12px 20px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+  .brand { font-weight: 600; font-size: 18px; letter-spacing: .2px; display: flex; align-items: center; gap: 8px; }
+  .pulse { width: 10px; height: 10px; border-radius: 50%; background: var(--faint); }
+  .pulse.on { background: var(--green); box-shadow: 0 0 0 0 rgba(66,190,101,.6); animation: beat 1.4s infinite; }
+  @keyframes beat { 70% { box-shadow: 0 0 0 9px rgba(66,190,101,0); } 100% { box-shadow: 0 0 0 0 rgba(66,190,101,0); } }
+  .platform { font: 12px var(--mono); color: var(--muted); border: 1px solid var(--line); border-radius: 6px; padding: 5px 9px; background: var(--panel); }
+  .platform b { color: var(--blue); font-weight: 500; }
+  .clock { font: 13px var(--mono); color: var(--muted); }
+  .clock b { color: var(--text); font-weight: 500; }
+  .controls { margin-left: auto; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  select { max-width: 100%; }
+  button, select { font: 13px var(--sans); color: var(--text); background: var(--panel-2); border: 1px solid var(--line); border-radius: 6px; padding: 6px 12px; cursor: pointer; }
+  button:hover, select:hover { border-color: var(--blue); }
+  button.primary { background: var(--blue); border-color: var(--blue); color: #fff; font-weight: 500; }
+  .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+  .seg button { border: 0; border-radius: 0; background: var(--panel); padding: 6px 10px; }
+  .seg button.active { background: var(--panel-2); color: var(--blue); }
+  main { padding: 16px 20px 24px; display: grid; gap: 16px; }
+  .kpis { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px; }
+  .kpi { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; min-width: 0; }
+  .kpi .label { color: var(--muted); font-size: 12px; }
+  .kpi .value { font: 500 24px/1.2 var(--mono); margin-top: 4px; white-space: nowrap; }
+  .kpi .value small { font-size: 13px; color: var(--muted); }
+  .kpi .sub { color: var(--faint); font-size: 12px; margin-top: 2px; }
+  .mix { display: flex; height: 8px; border-radius: 4px; overflow: hidden; margin-top: 10px; background: var(--panel-2); }
+  .mix span { display: block; height: 100%; }
+  .grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 16px; }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; min-width: 0; }
+  .panel h2 { font-size: 13px; font-weight: 600; margin: 0; padding: 10px 14px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; gap: 8px; }
+  .panel h2 span { color: var(--faint); font-weight: 400; }
+  .rows { font: 12.5px var(--mono); }
+  .row { display: grid; grid-template-columns: 112px 1fr 104px 76px; gap: 10px; padding: 5px 14px; border-bottom: 1px solid rgba(42,49,60,.6); align-items: center; }
+  .row .acct { color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .row .amt { text-align: right; }
+  .alerts .row { grid-template-columns: 112px 1fr 104px 76px; cursor: pointer; }
+  .alerts .row:hover, .alerts .row.sel { background: var(--panel-2); }
+  .alerts .reason { grid-column: 1 / -1; color: var(--muted); font-family: var(--sans); font-size: 12.5px; margin-top: -2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .chip { font: 500 11px var(--mono); padding: 2px 7px; border-radius: 4px; text-align: center; letter-spacing: .3px; }
+  .APPROVE { color: var(--green); background: var(--green-bg); }
+  .VERIFY { color: var(--yellow); background: var(--yellow-bg); }
+  .REVIEW { color: var(--red); background: var(--red-bg); }
+  .truth { color: var(--red); font-size: 11px; }
+  .scroll { max-height: 330px; overflow-y: auto; }
+  .detail { padding: 14px; }
+  .detail .head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .detail .score { font: 500 30px var(--mono); }
+  .detail ul { margin: 10px 0 14px; padding-left: 18px; }
+  .detail li { margin: 3px 0; }
+  .bars { display: grid; grid-template-columns: 130px 1fr 54px; gap: 6px 10px; align-items: center; font-size: 12.5px; }
+  .bar { height: 8px; background: var(--panel-2); border-radius: 4px; overflow: hidden; }
+  .bar span { display: block; height: 100%; background: var(--blue); }
+  .bars .v { font-family: var(--mono); color: var(--muted); text-align: right; }
+  .prof { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px; font-size: 12.5px; }
+  .prof table { width: 100%; border-collapse: collapse; }
+  .prof th { text-align: left; color: var(--muted); font-weight: 500; padding-bottom: 4px; }
+  .prof td { padding: 2px 0; color: var(--muted); }
+  .prof td.n { text-align: right; font-family: var(--mono); color: var(--text); }
+  .empty { color: var(--faint); padding: 18px 14px; }
+  .pat { display: grid; grid-template-columns: 128px 1fr 150px; gap: 10px; padding: 7px 14px; border-bottom: 1px solid rgba(42,49,60,.6); align-items: center; font-size: 12.5px; }
+  .dots { display: flex; gap: 3px; flex-wrap: wrap; }
+  .dot { width: 9px; height: 9px; border-radius: 2px; background: var(--panel-2); border: 1px solid var(--line); }
+  .dot.seen { background: #3d4652; border-color: #3d4652; }
+  .dot.flag { background: var(--red); border-color: var(--red); }
+  .dot.verify { background: var(--yellow); border-color: var(--yellow); }
+  .status { font-size: 12px; text-align: right; }
+  .status.good { color: var(--green); } .status.wait { color: var(--muted); } .status.late { color: var(--yellow); } .status.miss { color: var(--red); }
+  .note { color: var(--faint); font-size: 12px; padding: 8px 14px; }
+  .banner { background: var(--panel-2); border: 1px solid var(--line); border-radius: 8px; padding: 8px 14px; font: 13px var(--mono); color: var(--yellow); display: none; }
+  @media (max-width: 1100px) { .kpis { grid-template-columns: repeat(3, 1fr); } .grid { grid-template-columns: 1fr; } }
+  @media (max-width: 640px) { .kpis { grid-template-columns: 1fr 1fr; } .kpi .value { font-size: 19px; } .controls { margin-left: 0; } .row, .alerts .row { grid-template-columns: 90px 1fr 70px; } .row .amt { display: none; } }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><span class="pulse" id="pulse"></span>TrustPulse</div>
+  <div class="platform" id="platform">connecting…</div>
+  <div class="clock">stream time <b id="clock">–</b></div>
+  <div class="controls">
+    <button class="primary" id="run">Start</button>
+    <div class="seg" id="speed">
+      <button data-v="25">25/s</button><button data-v="100" class="active">100/s</button><button data-v="500">500/s</button><button data-v="max">Max</button>
+    </div>
+    <select id="jump"><option value="">Jump to a laundering pattern…</option></select>
+    <button id="reset">Reset</button>
+  </div>
+</header>
+<main>
+  <div class="banner" id="banner"></div>
+  <section class="kpis">
+    <div class="kpi"><div class="label">Payments decided</div><div class="value" id="k-scored">0</div><div class="sub" id="k-pos">–</div></div>
+    <div class="kpi"><div class="label">Throughput</div><div class="value" id="k-tput">0 <small>/s</small></div><div class="sub">one payment at a time</div></div>
+    <div class="kpi"><div class="label">Decision latency p50 · p99</div><div class="value" id="k-lat">– </div><div class="sub" id="k-lat2">features + 300-tree score + reasons</div></div>
+    <div class="kpi"><div class="label">Approve · Verify · Review</div><div class="value" id="k-mix" style="font-size:18px">–</div><div class="mix" id="mixbar"></div></div>
+    <div class="kpi"><div class="label">Laundering stopped or checked</div><div class="value" id="k-caught">–</div><div class="sub" id="k-caught2">ground truth, hidden from model</div></div>
+    <div class="kpi"><div class="label">Patterns flagged before final transfer</div><div class="value" id="k-lead">–</div><div class="sub" id="k-lead2">completed patterns in window</div></div>
+  </section>
+  <section class="grid">
+    <div style="display:grid; gap:16px; min-width:0">
+      <div class="panel">
+        <h2>Live payments <span>every payment, newest first</span></h2>
+        <div class="rows" id="tape"><div class="empty">Press Start to stream the held-out test days (9–10 Sep 2022).</div></div>
+      </div>
+      <div class="panel alerts">
+        <h2>Alerts <span id="alert-count">VERIFY and REVIEW</span></h2>
+        <div class="rows scroll" id="alerts"><div class="empty">No alerts yet.</div></div>
+      </div>
+    </div>
+    <div style="display:grid; gap:16px; align-content:start; min-width:0">
+      <div class="panel">
+        <h2>Why this decision <span>score drop when each signal group is reset to normal</span></h2>
+        <div class="detail" id="detail"><div class="empty" style="padding:0">Select an alert.</div></div>
+      </div>
+      <div class="panel">
+        <h2>Laundering patterns <span>ground truth overlay, not visible to the engine</span></h2>
+        <div id="patterns"><div class="empty">Patterns appear as their transfers arrive.</div></div>
+        <div class="note">Each square is one transfer in the pattern: grey approved, yellow VERIFY, red REVIEW, outline not yet arrived.</div>
+      </div>
+    </div>
+  </section>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+const nf = new Intl.NumberFormat("en-US");
+let since = 0, alerts = [], selected = null, running = false, autoSelect = true;
+
+async function post(body) {
+  await fetch("/api/control", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+  refresh();
+}
+$("run").onclick = () => post({ action: running ? "pause" : "start" });
+$("reset").onclick = () => { alerts = []; since = 0; selected = null; autoSelect = true; renderAlerts(); renderDetail(); post({ action: "reset" }); };
+$("speed").onclick = e => { const v = e.target.dataset.v; if (!v) return; post({ action: "rate", value: v }); };
+$("jump").onchange = e => {
+  if (!e.target.value) return;
+  alerts = []; since = 0; selected = null; autoSelect = true; renderAlerts(); renderDetail();
+  post({ action: "jump", pattern: +e.target.value }); e.target.value = "";
+};
+
+fetch("/api/jumps").then(r => r.json()).then(rows => {
+  const sel = $("jump");
+  rows.forEach(r => {
+    const o = document.createElement("option");
+    o.value = r.id;
+    o.textContent = `${r.spotlight ? "★ " : ""}${r.type} · ${r.total} transfers · starts ${r.ts.slice(5)}`;
+    sel.appendChild(o);
+  });
+});
+
+const money = v => "$" + (v >= 1e6 ? (v / 1e6).toFixed(2) + "M" : v >= 1e4 ? (v / 1e3).toFixed(1) + "k" : nf.format(Math.round(v)));
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const pct = x => (100 * x).toFixed(0) + "%";
+
+function renderTape(tape) {
+  if (!tape.length) return;
+  $("tape").innerHTML = tape.map(t => `<div class="row"><span>${t.ts.slice(5)}</span>
+    <span class="acct">${t.src} → ${t.dst} · ${esc(t.fmt)}</span><span class="amt">${money(t.amt_usd)}</span>
+    <span class="chip ${t.decision}">${t.decision}</span></div>`).join("");
+}
+
+function renderAlerts() {
+  $("alert-count").textContent = alerts.length ? `${nf.format(alerts.length)} shown · VERIFY and REVIEW` : "VERIFY and REVIEW";
+  if (!alerts.length) { $("alerts").innerHTML = '<div class="empty">No alerts yet.</div>'; return; }
+  $("alerts").innerHTML = alerts.slice(0, 120).map(a => `<div class="row ${selected && selected.id === a.id ? "sel" : ""}" data-id="${a.id}">
+      <span>${a.ts.slice(5)}</span><span class="acct">${a.src} → ${a.dst}${a.truth ? ' <span class="truth">● laundering</span>' : ""}</span>
+      <span class="amt">${money(a.amt_usd)}</span><span class="chip ${a.decision}">${a.decision}</span>
+      <div class="reason">${esc(a.reasons[0] || "")}</div></div>`).join("");
+}
+$("alerts").onclick = e => {
+  const row = e.target.closest(".row"); if (!row) return;
+  selected = alerts.find(a => a.id === +row.dataset.id); autoSelect = false; renderAlerts(); renderDetail();
+};
+
+function renderDetail() {
+  const a = selected;
+  if (!a) { $("detail").innerHTML = '<div class="empty" style="padding:0">Select an alert.</div>'; return; }
+  const max = Math.max(...a.drivers.map(d => Math.abs(d[1])), 1e-6);
+  const bars = a.drivers.slice(0, 6).map(([g, v]) => `<span>${esc(g)}</span>
+      <div class="bar"><span style="width:${Math.max(0, v) / max * 100}%"></span></div><span class="v">${v.toFixed(2)}</span>`).join("");
+  const table = (title, obj) => `<table><tr><th colspan="2">${title}</th></tr>${Object.entries(obj).map(([k, v]) =>
+      `<tr><td>${esc(k)}</td><td class="n">${typeof v === "number" ? (k.includes("share") ? pct(v) : nf.format(+v.toFixed ? +v.toFixed(1) : v)) : v}</td></tr>`).join("")}</table>`;
+  $("detail").innerHTML = `<div class="head"><span class="chip ${a.decision}" style="font-size:13px">${a.decision}</span>
+      <span class="score">${a.score.toFixed(3)}</span><span style="color:var(--muted)">risk score · ${a.latency_ms.toFixed(2)} ms</span></div>
+    <div style="color:var(--muted); margin-top:4px; font-family:var(--mono); font-size:12.5px">${a.ts} · ${a.src} → ${a.dst} · ${money(a.amt_usd)} · ${esc(a.fmt)} · ${esc(a.currency)}</div>
+    <ul>${a.reasons.map(r => `<li>${esc(r)}</li>`).join("")}</ul>
+    <div class="bars">${bars}</div>
+    <div class="prof">${table("Sender profile", a.profile.sender)}${table("Receiver profile", a.profile.receiver)}</div>
+    <div style="margin-top:10px; font-size:12px; color:var(--faint)">Ground truth: ${a.truth ? `<span class="truth">laundering${a.pattern_type ? " · " + esc(a.pattern_type) : ""}</span>` : "legitimate"}</div>`;
+}
+
+function renderPatterns(pats) {
+  if (!pats.length) return;
+  $("patterns").innerHTML = pats.map(p => {
+    const dots = Array.from({ length: Math.min(p.total, 24) }, (_, i) => {
+      const m = p.marks[i]; const cls = m === undefined ? "dot" : m === "A" ? "dot seen" : m === "V" ? "dot verify" : "dot flag";
+      return `<span class="${cls}"></span>`;
+    }).join("");
+    let status, cls;
+    const done = p.seen >= p.total;
+    if (p.flag_k && p.flag_k < p.total) { status = `flagged at transfer ${p.flag_k} of ${p.total}`; cls = "good"; }
+    else if (p.flag_k) { status = "flagged at final transfer"; cls = "late"; }
+    else if (done) { status = "missed"; cls = "miss"; }
+    else { status = `watching · ${p.seen} of ${p.total}`; cls = "wait"; }
+    return `<div class="pat"><span>${esc(p.type)}${p.began_before ? ' <span style="color:var(--faint)">(began earlier)</span>' : ""}</span>
+      <div class="dots">${dots}</div><span class="status ${cls}">${status}</span></div>`;
+  }).join("");
+}
+
+async function refresh() {
+  let s;
+  try { s = await (await fetch(`/api/state?since=${since}`)).json(); } catch { return; }
+  running = s.running;
+  $("run").textContent = running ? "Pause" : "Start";
+  $("pulse").className = "pulse" + (running ? " on" : "");
+  const p = s.platform;
+  $("platform").innerHTML = `live on <b>${esc(p.machine)}</b> · ${esc(p.cpu || p.os)} · host ${esc(p.host)} · ${p.cpus} vCPU · Python ${esc(p.python)} · NumPy ${esc(p.numpy)}`;
+  $("clock").textContent = s.sim_time || "–";
+  document.querySelectorAll("#speed button").forEach(b => b.classList.toggle("active",
+    (b.dataset.v === "max" && s.rate === 0) || +b.dataset.v === s.rate));
+  const ff = s.fast_forward;
+  $("banner").style.display = ff ? "block" : "none";
+  if (ff) $("banner").textContent = `Fast-forwarding account profiles to the selected pattern: ${nf.format(ff.pos)} of ${nf.format(ff.target)} payments (state updated, not scored)…`;
+
+  $("k-scored").textContent = nf.format(s.scored);
+  $("k-pos").textContent = `${nf.format(s.pos)} of ${nf.format(s.total)} test payments${s.skipped ? ` · ${nf.format(s.skipped)} fast-forwarded` : ""}`;
+  $("k-tput").innerHTML = `${nf.format(Math.round(s.throughput))} <small>/s</small>`;
+  $("k-lat").innerHTML = s.scored ? `${s.latency.p50.toFixed(2)} · ${s.latency.p99.toFixed(2)} <small>ms</small>` : "–";
+  $("k-lat2").textContent = s.scored ? `alerts incl. reasons p50 ${s.latency.alert_p50.toFixed(2)} ms` : "features + 300-tree score + reasons";
+  const c = s.counts, tot = Math.max(1, s.scored);
+  $("k-mix").textContent = `${nf.format(c.APPROVE)} · ${nf.format(c.VERIFY)} · ${nf.format(c.REVIEW)}`;
+  $("mixbar").innerHTML = `<span style="width:${100 * c.APPROVE / tot}%;background:var(--green)"></span><span style="width:${100 * c.VERIFY / tot}%;background:var(--yellow)"></span><span style="width:${100 * c.REVIEW / tot}%;background:var(--red)"></span>`;
+  const t = s.truth, caught = t.caught_verify + t.caught_review;
+  $("k-caught").innerHTML = t.laundering ? `${pct(caught / t.laundering)} <small>${caught}/${t.laundering}</small>` : "–";
+  const reviewTotal = c.REVIEW || 0;
+  $("k-caught2").textContent = reviewTotal ? `REVIEW precision ${pct(t.caught_review / reviewTotal)} · truth hidden from model` : "ground truth, hidden from model";
+  const ps = s.pattern_summary;
+  $("k-lead").innerHTML = ps.completed ? `${ps.flagged_before_final} <small>of ${ps.completed}</small>` : "–";
+  $("k-lead2").textContent = ps.completed ? `${ps.flagged} of ${ps.completed} flagged at some point` : "completed patterns in window";
+
+  renderTape(s.tape);
+  if (s.alerts.length) {
+    alerts = s.alerts.slice().reverse().concat(alerts).slice(0, 400);
+    since = s.alerts[s.alerts.length - 1].id;
+    if (autoSelect) selected = alerts.find(a => a.decision === "REVIEW") || alerts[0];
+    renderAlerts(); renderDetail();
+  }
+  renderPatterns(s.patterns);
+}
+setInterval(refresh, 600);
+refresh();
+</script>
+</body>
+</html>

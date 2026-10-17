@@ -21,6 +21,8 @@ Everything TrustPulse AI uses: open-source libraries, datasets, platform and too
 | matplotlib | 3.6.3 (Ubuntu) | Evaluation figures | Matplotlib License (PSF-based) |
 | joblib | Ubuntu package | Model persistence | BSD-3-Clause |
 | JupyterLab | 4.x | Notebook environment | BSD-3-Clause |
+| Flask | 3.x | Live console and REST scoring endpoint | BSD-3-Clause |
+| pytest | 8.x | Streaming-vs-batch parity tests | MIT |
 | IPython / ipykernel | pip | Notebook kernel | BSD-3-Clause |
 | Kaggle API client | 2.2.4 | Dataset download | Apache-2.0 |
 
@@ -37,7 +39,7 @@ XGBoost was considered but not used: no s390x wheel was available on PyPI for th
 
 | Dataset | Source | Use | License |
 |---|---|---|---|
-| IBM Transactions for Anti-Money Laundering (HI-Small) | Kaggle: `ealtman2019/ibm-transactions-for-anti-money-laundering-aml` | Main evaluation: network features, lead time, decision layer | TODO: copy the license shown on the Kaggle page |
+| IBM Transactions for Anti-Money Laundering (HI-Small) | Kaggle: `ealtman2019/ibm-transactions-for-anti-money-laundering-aml` | Main evaluation: network features, lead time, decision layer, live replay | CDLA-Sharing-1.0 |
 | PaySim synthetic mobile-money transactions | Kaggle: `ealaxi/paysim1` | Per-transaction baseline | TODO: copy the license shown on the Kaggle page |
 
 Raw data is not redistributed in this repository; the README shows how to download it.
@@ -51,6 +53,7 @@ Citations:
 
 | Tool | Use |
 |---|---|
+| IBM Plex Sans / Mono (Google Fonts) | Console typography (SIL Open Font License 1.1) |
 | Git and GitHub | Version control; commit history shows work done during the event |
 | tmux | Keeps the Jupyter server running across SSH disconnects |
 | OpenSSH | VM access and port tunnel to JupyterLab |

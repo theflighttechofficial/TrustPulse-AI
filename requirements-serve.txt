@@ -1,0 +1,3 @@
+# Live console and engine. On LinuxONE, NumPy comes from Ubuntu (python3-numpy).
+numpy
+flask
