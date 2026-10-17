@@ -31,7 +31,18 @@ Everything in this repository was developed and executed on an IBM LinuxONE Comm
 
 The live-engine rows come from `results/realtime_parity.json`: 20,000 test payments streamed one at a time, including reasons for every alert. The slowest single payment took 370 ms (a one-off pause; p99 is 0.4 ms). For comparison, scikit-learn's own `predict_proba` on one payment took 2.78 ms on the same VM, so the exported scorer is about 11× faster per payment.
 
-No claims are made about the on-chip AI accelerator; it was not verified or used on this VM.
+### Telum II on-chip AI accelerator
+
+The VM runs on an IBM z17 (machine type 9175, Telum II processor) under z/VM 7.3, and the guest sees the accelerator: `nnpa` appears in the CPU flags, and IBM's zDNN library (Ubuntu `libzdnn0` 1.0.1) reports NNPA installed. We tested it with IBM Snap ML 1.17.2, which runs tree-ensemble inference on the accelerator through zDNN (`tree_format="zdnn_tensors"`). A Snap ML boosting model (300 rounds, depth 8, same features and training sample) was scored both ways on the same test days (`scripts/telum_benchmark.py`, results in `results/telum_benchmark.json`):
+
+| Snap ML inference | CPU (`compress_trees`) | Telum II NNPA (`zdnn_tensors`) |
+|---|---|---|
+| All 862,792 test payments | 1.48 s (582,579/s) | 9.91 s (87,042/s) |
+| Batch of 10,000 | 18.0 ms | 93.5 ms |
+| One payment | 0.020 ms | 0.045 ms |
+| Test PR-AUC / recall at 0.5% alerts | 0.478 / 0.627 | 0.478 / 0.627 |
+
+The accelerator path is real: with the zDNN library hidden (`SNAPML_ZDNN_LIB=/nonexistent`), Snap ML refuses `zdnn_tensors` with `zDNN library supported only in Z systems`. Scores and decisions were identical on both paths. For this model size on a 3-vCPU guest, though, the accelerator path was 2–7× slower than Snap ML's CPU path, so the live engine stays on the CPU. Snap ML's model was also less accurate than the scikit-learn model the engine uses (PR-AUC 0.478 vs 0.525). Larger models, larger batches, or a newer zDNN release may change this; the script makes the comparison repeatable.
 
 ## Approach
 
@@ -105,7 +116,8 @@ app/server.py, app/static/     live console and REST scoring endpoint (Flask)
 models/                        exported trees and engine configuration
 tests/                         streaming-vs-batch parity tests; synthetic bundle for a data-free demo
 figures/                       ablation, lead time, decision bands, example pattern
-results/                       metrics.json (evaluation), realtime_parity.json (engine on LinuxONE)
+scripts/telum_benchmark.py     Snap ML inference on CPU vs the Telum II accelerator (NNPA via zDNN)
+results/                       metrics.json (evaluation), realtime_parity.json (engine), telum_benchmark.json (accelerator)
 resources.md                   libraries, datasets and tools, with licenses
 ```
 

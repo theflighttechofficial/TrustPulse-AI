@@ -22,6 +22,8 @@ Everything TrustPulse AI uses: open-source libraries, datasets, platform and too
 | joblib | Ubuntu package | Model persistence | BSD-3-Clause |
 | JupyterLab | 4.x | Notebook environment | BSD-3-Clause |
 | Flask | 3.x | Live console and REST scoring endpoint | BSD-3-Clause |
+| IBM Snap ML (`snapml`) | 1.17.2 | Telum II accelerator benchmark (tree inference via zDNN) | IBM proprietary licence, free on PyPI |
+| IBM zDNN (`libzdnn0`) | 1.0.1 (Ubuntu) | Access to the NNPA on-chip AI accelerator | Apache-2.0 |
 | pytest | 8.x | Streaming-vs-batch parity tests | MIT |
 | IPython / ipykernel | pip | Notebook kernel | BSD-3-Clause |
 | Kaggle API client | 2.2.4 | Dataset download | Apache-2.0 |
