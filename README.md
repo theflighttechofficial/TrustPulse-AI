@@ -58,6 +58,10 @@ The notebook proves the method in batch. `trustpulse/engine.py` runs it the way 
 - **Streaming state.** A running profile per account (payments in and out, amounts, distinct counterparties, first and last activity) and a count per sender-receiver pair. Each payment reads the profiles, gets a decision, then updates them. Every feature is identical to the notebook's batch definition; `build.parity_check` streams the test days through the engine and compares feature by feature against the notebook frame and against scikit-learn's own scores. On LinuxONE, over 20,000 payments: largest relative feature difference 4.4e-14, decisions identical to the batch pipeline in 100% of cases (`results/realtime_parity.json`).
 - **Portable model.** The 300 trained trees are exported to flat arrays (`models/model_trees.json`). The engine walks all trees together with a few NumPy operations, so serving needs Python and NumPy only: no pandas, no scikit-learn, no compiler. That matters on s390x, where pip has no wheels for most of the data-science stack.
 - **Decisions with reasons.** Thresholds come from the validation days (`models/engine_config.json`). For VERIFY and REVIEW, the engine re-scores the payment with each signal group reset to its typical value and reports the groups that moved the score most, in plain language.
+![TrustPulse live console running on the LinuxONE VM (s390x, IBM z17)](docs/console_s390x.png)
+
+*The live console on the LinuxONE VM: header shows s390x, machine type 9175 (IBM z17) and the host; a REVIEW alert with its reasons and the score drop per signal group.*
+
 - **Live console** (`app/server.py`, Flask). Replays the held-out test days through the engine in arrival order, at a chosen speed, and shows decisions, latency, throughput, alerts with reasons, and how early each laundering pattern was flagged (ground truth is shown as an overlay and never reaches the engine). The same process exposes `POST /api/score` for single payments.
 
 ```bash
