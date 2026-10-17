@@ -1,0 +1,40 @@
+== TrustPulse AI platform evidence, 2026-10-17T20:22:15Z
+
+== Machine
+s390x
+Type:                 9175
+Model:                702              ME1             
+PRETTY_NAME="Ubuntu 24.04.5 LTS"
+CPUs: 3
+               total        used        free      shared  buff/cache   available
+Mem:           7.8Gi       6.0Gi       467Mi        14Mi       1.6Gi       1.9Gi
+Swap:          4.0Gi        64Mi       3.9Gi
+
+== CPU facilities
+nnpa: present
+msa: present
+vx: present
+vxe: present
+vxe2: present
+
+== Telum II accelerator software
+libzdnn0 1.0.1-0ubuntu1.1
+snapml 1.17.2
+
+== Python stack
+python 3.12.3
+numpy 1.26.4
+pandas 2.1.4
+scikit-learn 1.4.1.post1
+
+== OpenSSL AES-256-GCM (CPACF), 3 s
+OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)
+type             16 bytes     64 bytes    256 bytes   1024 bytes   8192 bytes  16384 bytes
+AES-256-GCM     225853.45k   861925.59k  2927035.39k  8366200.15k 14694544.73k 14933579.09k
+
+== Container runtime
+podman version 4.9.3
+localhost/trustpulse:latest 172 MB
+
+== Engine tests
+6 passed in 2.25s
