@@ -1,0 +1,97 @@
+{
+  "ablation_test": {
+    "local only": {
+      "pr_auc": 0.0638,
+      "recall": 0.3536,
+      "precision": 0.0725
+    },
+    "local + network": {
+      "pr_auc": 0.5254,
+      "recall": 0.7186,
+      "precision": 0.1288
+    }
+  },
+  "propagation_check_test": {
+    "network model": {
+      "pr_auc": 0.5254,
+      "alert_rate": 0.0062,
+      "recall": 0.7186,
+      "precision": 0.1288,
+      "hub_false_alert": 0.006,
+      "patterns": 79,
+      "caught": 0.962,
+      "flagged_before_final": 0.5823,
+      "median_lead_txns": 1.0,
+      "median_lead_h": 4.6583
+    },
+    "+ propagation (beta=0.0, 24h)": {
+      "pr_auc": 0.5254,
+      "alert_rate": 0.0062,
+      "recall": 0.7186,
+      "precision": 0.1288,
+      "hub_false_alert": 0.006,
+      "patterns": 79,
+      "caught": 0.962,
+      "flagged_before_final": 0.5823,
+      "median_lead_txns": 1.0,
+      "median_lead_h": 4.6583
+    }
+  },
+  "decision_bands_test": {
+    "APPROVE": {
+      "txns": 840848.0,
+      "laundering": 198.0,
+      "share_of_laundering": 0.2071
+    },
+    "VERIFY": {
+      "txns": 16609.0,
+      "laundering": 71.0,
+      "share_of_laundering": 0.0743
+    },
+    "REVIEW": {
+      "txns": 5335.0,
+      "laundering": 687.0,
+      "share_of_laundering": 0.7186
+    }
+  },
+  "lead_time_by_pattern_type": {
+    "BIPARTITE": {
+      "caught": 0.909,
+      "lead_h": 1.65
+    },
+    "CYCLE": {
+      "caught": 0.889,
+      "lead_h": 15.492
+    },
+    "FAN-IN": {
+      "caught": 1.0,
+      "lead_h": 5.017
+    },
+    "FAN-OUT": {
+      "caught": 0.889,
+      "lead_h": 17.383
+    },
+    "GATHER-SCATTER": {
+      "caught": 1.0,
+      "lead_h": 6.308
+    },
+    "RANDOM": {
+      "caught": 1.0,
+      "lead_h": 2.883
+    },
+    "SCATTER-GATHER": {
+      "caught": 1.0,
+      "lead_h": 4.45
+    },
+    "STACK": {
+      "caught": 1.0,
+      "lead_h": 3.35
+    }
+  },
+  "split": {
+    "train": "2022-09-01..06",
+    "val": "2022-09-07..08",
+    "test": "2022-09-09..10"
+  },
+  "alert_budget": 0.005
+}
