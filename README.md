@@ -2,7 +2,7 @@
 
 Real-time, network-aware risk scoring for instant payments, built and run on IBM LinuxONE (s390x).
 
-IBM Z Datathon 2026, Theme 1: Real-Time AI for Critical Decisions. Solo entry by S. Varun Vaibhav.
+IBM Z Datathon 2026, Theme 1: Real-Time AI for Critical Decisions.
 
 ## The problem
 
