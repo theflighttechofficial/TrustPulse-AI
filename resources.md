@@ -24,6 +24,8 @@ Everything TrustPulse AI uses: open-source libraries, datasets, platform and too
 | Flask | 3.x | Live console and REST scoring endpoint | BSD-3-Clause |
 | IBM Snap ML (`snapml`) | 1.17.2 | Telum II accelerator benchmark (tree inference via zDNN) | IBM proprietary licence, free on PyPI |
 | IBM zDNN (`libzdnn0`) | 1.0.1 (Ubuntu) | Access to the NNPA on-chip AI accelerator | Apache-2.0 |
+| cryptography | Ubuntu package | AES-256-GCM encryption of engine state (OpenSSL, CPACF) | Apache-2.0 / BSD-3-Clause |
+| OpenSSL | 3.0.13 (Ubuntu) | AES-GCM on CPACF | Apache-2.0 |
 | pytest | 8.x | Streaming-vs-batch parity tests | MIT |
 | IPython / ipykernel | pip | Notebook kernel | BSD-3-Clause |
 | Kaggle API client | 2.2.4 | Dataset download | Apache-2.0 |
@@ -42,7 +44,7 @@ XGBoost was considered but not used: no s390x wheel was available on PyPI for th
 | Dataset | Source | Use | License |
 |---|---|---|---|
 | IBM Transactions for Anti-Money Laundering (HI-Small) | Kaggle: `ealtman2019/ibm-transactions-for-anti-money-laundering-aml` | Main evaluation: network features, lead time, decision layer, live replay | CDLA-Sharing-1.0 |
-| PaySim synthetic mobile-money transactions | Kaggle: `ealaxi/paysim1` | Per-transaction baseline | TODO: copy the license shown on the Kaggle page |
+| PaySim synthetic mobile-money transactions | Kaggle: `ealaxi/paysim1` | Per-transaction baseline | CC BY-SA 4.0 (as listed on Kaggle) |
 
 Raw data is not redistributed in this repository; the README shows how to download it.
 

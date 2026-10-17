@@ -42,7 +42,13 @@ The VM runs on an IBM z17 (machine type 9175, Telum II processor) under z/VM 7.3
 | One payment | 0.020 ms | 0.045 ms |
 | Test PR-AUC / recall at 0.5% alerts | 0.478 / 0.627 | 0.478 / 0.627 |
 
-The accelerator path is real: with the zDNN library hidden (`SNAPML_ZDNN_LIB=/nonexistent`), Snap ML refuses `zdnn_tensors` with `zDNN library supported only in Z systems`. Scores and decisions were identical on both paths. For this model size on a 3-vCPU guest, though, the accelerator path was 2–7× slower than Snap ML's CPU path, so the live engine stays on the CPU. Snap ML's model was also less accurate than the scikit-learn model the engine uses (PR-AUC 0.478 vs 0.525). Larger models, larger batches, or a newer zDNN release may change this; the script makes the comparison repeatable.
+The accelerator path is real: with the zDNN library hidden (`SNAPML_ZDNN_LIB=/nonexistent`), Snap ML refuses `zdnn_tensors` with `zDNN library supported only in Z systems`. Scores and decisions were identical on both paths. For this model size on a 3-vCPU guest, though, the accelerator path was 2–7× slower than Snap ML's CPU path, so the live engine stays on the CPU. Snap ML's model was also less accurate than the scikit-learn model the engine uses (PR-AUC 0.478 vs 0.525). To check that this was not an artefact of one setting, `scripts/telum_sweep.py` swept batch sizes from 1 to 862,792 payments, 1–3 threads, and three model sizes (50 trees depth 4, 100 trees depth 6, 300 trees depth 8). The CPU path was faster in every one of the 36 configurations; the closest the NNPA path came was 0.85× CPU speed (50 shallow trees, one payment per call). Decision rule for this deployment: score on Snap ML's CPU compressed-tree path. A newer zDNN release or a model built for the accelerator (for example a neural scorer compiled with the IBM Z Deep Learning Compiler) is the next thing to test.
+
+![Snap ML inference on the LinuxONE VM: CPU vs Telum II accelerator across batch sizes and threads](figures/telum_crossover.png)
+
+### Hardware-accelerated encryption of engine state (CPACF)
+
+The engine's account-state snapshot and exported model are encrypted at rest with AES-256-GCM (`scripts/cpacf_state.py`). On IBM Z, OpenSSL runs AES-GCM on CPACF, the crypto unit in every core (the `msa` CPU flag). On the VM, the 14.8 MB state snapshot encrypts in 15 ms (1.0 GB/s) and decrypts to identical bytes, and `openssl speed -evp aes-256-gcm` reaches 14.9 GB/s on one core at 16 KB blocks (`results/cpacf_state.json`). Encrypting the state the engine restarts from costs well under a second.
 
 ## Approach
 
@@ -121,7 +127,9 @@ models/                        exported trees and engine configuration
 tests/                         streaming-vs-batch parity tests; synthetic bundle for a data-free demo
 figures/                       ablation, lead time, decision bands, example pattern
 scripts/telum_benchmark.py     Snap ML inference on CPU vs the Telum II accelerator (NNPA via zDNN)
-results/                       metrics.json (evaluation), realtime_parity.json (engine), telum_benchmark.json (accelerator)
+scripts/telum_sweep.py         the same comparison across batch sizes, threads and model sizes
+scripts/cpacf_state.py         AES-256-GCM encryption of engine state and model (CPACF via OpenSSL)
+results/                       metrics.json (evaluation), realtime_parity.json (engine), telum_benchmark.json and telum_sweep.json (accelerator), cpacf_state.json (encryption)
 resources.md                   libraries, datasets and tools, with licenses
 ```
 
